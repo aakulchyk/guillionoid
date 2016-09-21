@@ -4,7 +4,7 @@ version 0.2
 + added hall of fame
 '''
 
-import sys, pygame, random, time, GameObject, GameArea, GameSound, re
+import sys, pygame, random, time, GameObject, GameArea, GameSound, re, ConfigParser
 
 _major_version_ = 0
 _minor_version_ = 2
@@ -150,19 +150,22 @@ def print_info(screen, level, score):
     screen.blit(score_print, (scr_w-100, 500+(text_h+10)*2))
 
 def save_score(username, userscore):
-    f = open(_score_filename, 'rU')
-    s = f.read()
-    f.close()
-    scorelist = re.findall('(\w+) (\d+)', s)
+    import os.path
+    s = ""
+    if os.path.isfile(_score_filename):
+        f = open(_score_filename, 'rU')
+        s = f.read()
+        f.close()
+        scorelist = re.findall('(\w+) (\d+)', s)
 
-    score_dict = {}
-    score_dict[username] = userscore
-    for key, val in scorelist:
-        if (not score_dict.has_key(key)) or int(val)>score_dict[key]:
-            score_dict[key] = int(val)
+        score_dict = {}
+        score_dict[username] = userscore
+        for key, val in scorelist:
+            if (not score_dict.has_key(key)) or int(val)>score_dict[key]:
+                score_dict[key] = int(val)
 
-    scorelist = [k+' '+str(v) for k,v in score_dict.items()]
-    s = '\n'.join(scorelist)
+        scorelist = [k+' '+str(v) for k,v in score_dict.items()]
+        s = '\n'.join(scorelist)
     
     f = open(_score_filename,'w')
 
@@ -202,18 +205,22 @@ def show_score(screen):
 
 
 def main():
-    args = sys.argv[1:]
+    config = ConfigParser.ConfigParser()
+    config.read('guilli.ini')
     global username
-    if args[0]:
-      username = args[0]
-      print(username)
+    username = config.get('DEFAULT', 'username')
+    print(username)
+
+    GameObject.head = config.get('DEFAULT', 'head')
+    print(GameObject.head)
+
     screen = init_screen()
     sounds = GameSound.Sounds()
     sounds.load()
 
     pygame.font.init()
 
-    show_title(screen, "LUKANOID", 42)
+    show_title(screen, "GUILLINOID", 42)
 
     area = GameArea.Area(screen)
     platform = GameObject.Platform(area)

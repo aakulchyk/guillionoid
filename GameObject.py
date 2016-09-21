@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import sys, pygame, random, GameArea, GameSound
 
+global head
+
 def sign(x):
     if (x>=0):  return 1
     else:       return -1
@@ -29,7 +31,7 @@ class Ball(Object):
         self.__speed = [1, self.initial_speed]
         self.move_count = MoveCountValMax
         self.area = area
-        self.image = pygame.image.load(PathBin + "/luka.png")
+        self.image = pygame.image.load(PathBin + "/" + head)
         self.rect = self.image.get_rect()
         self.rect.move_ip( x, y)
         self.newrect = self.rect
