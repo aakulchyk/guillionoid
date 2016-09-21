@@ -7,7 +7,7 @@ version 0.2
 import sys, pygame, random, time, GameObject, GameArea, GameSound, re
 
 _major_version_ = 0
-_minor_version_ = 1
+_minor_version_ = 2
 _score_filename = 'score.txt'
 screen_color = 0, 0, 0
 
