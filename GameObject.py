@@ -81,7 +81,6 @@ class Ball(Object):
         return self.newrect.colliderect(rect)
 
     def paint(self,screen):
-
         if self.__speed[0]>0:
             self.move_count -= 1
         elif self.__speed[0]<0:
@@ -97,9 +96,6 @@ class Ball(Object):
 
         self.image = pygame.transform.rotate(self.image, rotangle)
         Object.paint(self, screen)
-
-    
-
 
 class Platform(Object):
     def __init__(self, area):
@@ -123,7 +119,7 @@ class Platform(Object):
         pygame.event.pump()
         key = pygame.key.get_pressed()
         dir = 0
-        vert=0
+        vert = 0
         if key[pygame.K_LEFT]:
                 dir =  -1
         if key[pygame.K_RIGHT]:
@@ -132,15 +128,13 @@ class Platform(Object):
                 vert =  -1
         if key[pygame.K_DOWN]:
                 vert = 1
-          
         self.start_move(dir, vert)
 
-        
     def collide(self, rect):
         self.sounds.play("jump")
         return self.rect.colliderect(rect)
-        
 
+        
 class Brick(Object):
     def __init__(self, x, y, i):
         self.life=0
@@ -161,6 +155,7 @@ class Brick(Object):
             else:
                 self.sounds.play(self._hit_sound)
 
+                
 class GreenBrick(Brick):
     def __init__(self, x, y, i):
         Brick.__init__(self,x,y,i)
@@ -169,6 +164,8 @@ class GreenBrick(Brick):
         self.rect.move_ip(x, y)
         self.life=3
         self.score=30
+
+        
 class BrownBrick(Brick):
     def __init__(self, x, y, i):
         Brick.__init__(self,x,y,i)
@@ -177,6 +174,8 @@ class BrownBrick(Brick):
         self.rect.move_ip(x, y)
         self.life=2
         self.score=20
+        
+        
 class BubbyBrick(Brick):
     def __init__(self, x, y, i):
         Brick.__init__(self,x,y,i)
@@ -185,6 +184,8 @@ class BubbyBrick(Brick):
         self.rect.move_ip(x, y)
         self.life=1
         self.score=10
+        
+        
 class GoldBrick(Brick):
     def __init__(self, x, y, i):
         Brick.__init__(self,x,y,i)

@@ -5,7 +5,7 @@ version 0.2
 '''
 
 import sys, pygame, random, time, GameObject, GameArea, GameSound, re, ConfigParser
-
+_game_title_ = 'GUILLINOID'
 _major_version_ = 0
 _minor_version_ = 2
 _score_filename = 'score.txt'
@@ -34,10 +34,9 @@ def handle_keys():
             quit_game()
             
 
-def init_screen():
-    size = width, height = 800, 600
+def init_screen(size):
     screen = pygame.display.set_mode(size)
-    pygame.display.set_caption('LUKANOID v.%d.%d' % (_major_version_, _minor_version_))
+    pygame.display.set_caption('%s v.%d.%d' % (_game_title_, _major_version_, _minor_version_))
     return screen
 
 
@@ -108,8 +107,7 @@ def wait_for_enter():
         pygame.event.pump()
         key = pygame.key.get_pressed()
         pygame.time.wait(1)
-
-        
+      
 def show_title(screen, string, size):
     screen.fill(screen_color)
     font = pygame.font.Font(None, size)
@@ -128,7 +126,6 @@ def show_title(screen, string, size):
     
     wait_for_enter()
 
-    
 def print_info(screen, level, score):
     font = pygame.font.Font(None, 24)
 
@@ -213,14 +210,15 @@ def main():
 
     GameObject.head = config.get('DEFAULT', 'head')
     print(GameObject.head)
-
-    screen = init_screen()
+    screen_w = config.get('VIDEO', 'screen_w')
+    screen_h = config.get('VIDEO', 'screen_h')
+    screen = init_screen([int(screen_w), int(screen_h)])
     sounds = GameSound.Sounds()
     sounds.load()
 
     pygame.font.init()
 
-    show_title(screen, "GUILLINOID", 42)
+    show_title(screen, _game_title_, 42)
 
     area = GameArea.Area(screen)
     platform = GameObject.Platform(area)
